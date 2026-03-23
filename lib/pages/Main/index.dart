@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/Cart/index.dart';
+import 'package:myapp/pages/Category/index.dart';
+import 'package:myapp/pages/Home/index.dart';
+import 'package:myapp/pages/Mine/index.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -44,18 +48,26 @@ class _MainPageState extends State<MainPage> {
 
    });
   }
-
+  List<Widget>_getChildren () {
+    return [HomeView(),CategoryView(),CartView(),MineView()];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold
       (
-      body: Center(child:Text("主页")),
+      body: SafeArea(child:
+        IndexedStack(
+          index: _currentIndex,
+          children: _getChildren(),//放置几个组件
+        )
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index){
           _currentIndex = index;
           setState(() {});
         },
         items: _getTabBarWidget(),
+        showUnselectedLabels: true,
         currentIndex: _currentIndex,
         selectedItemColor: Colors.red,
         unselectedItemColor: Colors.black,
