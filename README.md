@@ -60,5 +60,17 @@ lib/
     全局常量定义
     API地址、Key、枚举等
 
+## 安装
 
+## 📦 依赖总览（可选）
+| 功能 | 依赖包 | 版本 |
+|------|--------|------|
+| 轮播图 | carousel_slider | ^4.0.0 |
+| 网络请求 | dio | ^5.0.0 |
+| 状态管理 | provider | ^6.0.0 |
+
+## 🚀 快速开始
+1. 安装依赖
+   ```bash
+   flutter pub add carousel_slider
 
