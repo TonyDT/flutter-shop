@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../viewmodels/home.dart';
+
 class HmHot extends StatefulWidget {
-  const HmHot({super.key});
+  //热门组件
+  HmHot({super.key});
 
   @override
   State<HmHot> createState() => _HmHotState();
@@ -15,6 +18,7 @@ class _HmHotState extends State<HmHot> {
         alignment: Alignment.center,
         height: 200,
         child:Text("爆款推荐",style: TextStyle(color: Colors.white),),
+
     );
   }
 }

@@ -36,3 +36,10 @@ Future<List<CategoryItem>> getCategoryListApi() async {
   }
   return categoryList;
 }
+
+//特惠推荐
+Future<SpecialRecommendation> getProductListApi() async {
+  return SpecialRecommendation.fromJson(
+      await dioRequest.get(HttpConstants.PRODUCT_LIST)
+  );
+}
