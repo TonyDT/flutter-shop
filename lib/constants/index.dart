@@ -6,5 +6,7 @@ class GlobalConstants{
 }
 //存放请求地址接口的常量
 class HttpConstants{
-  static const String BANNER_LIST = "/home/banner";//登录
+  static const String BANNER_LIST = "/home/banner";//banner
+  static const String CATEGORY_LIST = "/home/category/head";//分类
+
 }

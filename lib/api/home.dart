@@ -23,3 +23,16 @@ Future<List<BannerItem>> getBannerListApi() async {
   // 第四步：返回结果
   return bannerList;
 }
+
+
+//获取分类列表
+Future<List<CategoryItem>> getCategoryListApi() async {
+  final response = await dioRequest.get(HttpConstants.CATEGORY_LIST);
+  List responseList = response as List;
+  List<CategoryItem> categoryList = [];
+  for (var item in responseList) {
+    CategoryItem categoryItem = CategoryItem.fromJson(item);
+    categoryList.add(categoryItem);
+  }
+  return categoryList;
+}

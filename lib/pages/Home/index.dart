@@ -16,11 +16,14 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+//分类
+  List<CategoryItem> _categoryList = [];
 
+  //轮播图数据
   List<BannerItem> _bannerList = [
-    BannerItem(id: "1", imgUrl: "https://cbu01.alicdn.com/img/ibank/O1CN01hARknf20TLsaIVq6M_!!3821586850-0-cib.400x400.jpg"),
-    BannerItem(id: "2", imgUrl: "https://cbu01.alicdn.com/img/ibank/O1CN01ZbGcny1I21HdHdG0p_!!3882110834-0-cib.jpg"),
-    BannerItem(id: "3", imgUrl: "https://cbu01.alicdn.com/img/ibank/O1CN01ssuywC1j72zPfy4Mt_!!1001514500-0-cib.jpg"),
+    // BannerItem(id: "1", imgUrl: "https://cbu01.alicdn.com/img/ibank/O1CN01hARknf20TLsaIVq6M_!!3821586850-0-cib.400x400.jpg"),
+    // BannerItem(id: "2", imgUrl: "https://cbu01.alicdn.com/img/ibank/O1CN01ZbGcny1I21HdHdG0p_!!3882110834-0-cib.jpg"),
+    // BannerItem(id: "3", imgUrl: "https://cbu01.alicdn.com/img/ibank/O1CN01ssuywC1j72zPfy4Mt_!!1001514500-0-cib.jpg"),
   ];
   List<Widget>_getScrollChildren(){
     return[
@@ -29,7 +32,7 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),//放置分类组件
 
       //SliverGrid SliverLsit  只能纵向排列只能用ListView
-      SliverToBoxAdapter(child: HmCategory()),//分类组件
+      SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList,)),//分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
       SliverToBoxAdapter(child: HmSuggestion()),//分类组件
@@ -52,15 +55,26 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _getBannerList();
+    _getCategoryList();
+
   }
 
 
+
+    //获取轮播图数据
   void _getBannerList() async{
     _bannerList = await getBannerListApi();
     // print(_bannerList);
     setState(() {
     });
   }
+  //获取分类列表
+  void _getCategoryList() async {
+    _categoryList = await getCategoryListApi();
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(  //sliver家族的内容
