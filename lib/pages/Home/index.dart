@@ -6,6 +6,8 @@ import 'package:myapp/components/Home/HmSlider.dart';
 import 'package:myapp/components/Home/HmSuggestion.dart';
 import 'package:myapp/viewmodels/home.dart';
 
+import '../../api/home.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -46,6 +48,18 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       HmMoreList()//无限滚动列表
     ];
+  }
+  void initState() {
+    super.initState();
+    _getBannerList();
+  }
+
+
+  void _getBannerList() async{
+    _bannerList = await getBannerListApi();
+    // print(_bannerList);
+    setState(() {
+    });
   }
   @override
   Widget build(BuildContext context) {

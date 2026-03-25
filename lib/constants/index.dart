@@ -1,0 +1,10 @@
+//全局常量
+class GlobalConstants{
+  static const String BASE_URL = "https://meikou-api.itheima.net";//基础地质
+  static const int TIME_OUT = 10;//超时时间
+  static const String SUCCESS_CODE = "1";//成功状态码
+}
+//存放请求地址接口的常量
+class HttpConstants{
+  static const String BANNER_LIST = "/home/banner";//登录
+}

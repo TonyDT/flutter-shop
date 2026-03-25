@@ -73,4 +73,5 @@ lib/
 1. 安装依赖
    ```bash
    flutter pub add carousel_slider
+   flutter pub add dio
 
