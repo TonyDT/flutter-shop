@@ -15,6 +15,9 @@ class _HmSuggestionState extends State<HmSuggestion> {
 
   //取前三条
   List<GoodsItem> _getDisplayItems(){
+    if(widget.specialRecommendResult.subTypes.isEmpty){
+      return [];
+    }
    return  widget.specialRecommendResult.subTypes.first.goodsItems.items.take(3).toList();
   }
   Widget _buildHeader(){
@@ -52,12 +55,25 @@ class _HmSuggestionState extends State<HmSuggestion> {
       return List.generate(list.length, (int index){
               return Column(
                 children: [
-                 Image.network(
-                   list[index].picture,
-                   width: 100,
-                   height: 140,
-                   fit: BoxFit.cover,),
-                ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      errorBuilder: (context, error, stack) {
+                        // return Image.asset("lib/assets/home_cmd_inner.png");
+                        return Image.asset("lib/assets/home_cmd_inner.png");
+                      },
+                      list[index].picture,
+                      width: 100,
+                      height: 140,
+                      fit: BoxFit.cover,),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.red),
+                      child: Text("￥${list[index].price}",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.w700),)
+                 )
+                 ],
               );
       });
     }
