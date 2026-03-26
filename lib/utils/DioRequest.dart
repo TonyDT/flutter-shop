@@ -2,6 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:myapp/constants/index.dart';
 
+import '../viewmodels/home.dart';
+
 class DioRequest {
     final _dio = Dio();//dio请求对象
     DioRequest() {
@@ -57,3 +59,17 @@ final dioRequest = DioRequest();
 
 //dio 请求工具发出请求 返回的数据 Response<dynamic>
 //把所有的接口的data解放出来拿到真正的数据要判断业务状态码是不是等于1
+
+
+// 推荐列表
+Future<List<GoodDetailItem>> getRecommendListAPI(
+    Map<String, dynamic> params,
+    ) async {
+  // 返回请求
+  return ((await dioRequest.get(HttpConstants.RECOMMEND_LIST, params: params))
+  as List)
+      .map((item) {
+    return GoodDetailItem.formJSON(item as Map<String, dynamic>);
+  })
+      .toList();
+}

@@ -7,6 +7,7 @@ import 'package:myapp/components/Home/HmSuggestion.dart';
 import 'package:myapp/viewmodels/home.dart';
 
 import '../../api/home.dart';
+import '../../utils/DioRequest.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -55,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
       ),),
      ),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      HmMoreList()//无限滚动列表
+      HmMoreList(recommendList: _recommendList), // 无限滚动列表
     ];
   }
   // 特惠推荐
@@ -97,7 +98,18 @@ class _HomeViewState extends State<HomeView> {
     _getProductList();
     _getInVogueList();
     _getOneStopList();
+    _getRecommendList();
   }
+
+  // 推荐列表
+  List<GoodDetailItem> _recommendList = [];
+
+  // 获取推荐列表
+  void _getRecommendList() async {
+    _recommendList = await getRecommendListAPI({"limit": 10});
+    setState(() {});
+  }
+
 //特惠推荐列表
 void _getProductList() async{
   _specialRecommendResult = await getProductListApi();
