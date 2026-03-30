@@ -4,6 +4,7 @@ import 'package:myapp/components/Home/HmHot.dart';
 import 'package:myapp/components/Home/HmMoreList.dart';
 import 'package:myapp/components/Home/HmSlider.dart';
 import 'package:myapp/components/Home/HmSuggestion.dart';
+import 'package:myapp/utils/ToastUtils.dart';
 import 'package:myapp/viewmodels/home.dart';
 
 import '../../api/home.dart';
@@ -80,25 +81,37 @@ class _HomeViewState extends State<HomeView> {
   );
 
 // 获取热榜推荐列表
-  void _getInVogueList() async {
+  Future<void> _getInVogueList() async {
     _inVogueResult = await getInVogueListAPI();
-    setState(() {});
+    // setState(() {});
   }
 
   // 获取一站式推荐列表
-  void _getOneStopList() async {
+  Future<void> _getOneStopList() async {
     _oneStopResult = await getOneStopListAPI();
-    setState(() {});
+    // setState(() {});
   }
   @override
   void initState() {
     super.initState();
-    _getBannerList();
-    _getCategoryList();
-    _getProductList();
-    _getInVogueList();
-    _getOneStopList();
-    _getRecommendList();
+    // _getBannerList();
+    // _getCategoryList();
+    // _getProductList();
+    // _getInVogueList();
+    // _getOneStopList();
+    // _getRecommendList();
+    // 不能直接在这里调用，因为 RefreshIndicator 还未构建
+    // _key.currentState?.show();  // 无效，currentState 为 null
+
+    // 使用 microtask 延迟调用
+    Future.microtask((){
+      _paddingTop = 100;
+      setState(() {
+
+      });
+      _key.currentState?.show();
+    });
+
     _registerEvent();
   }
 
@@ -122,7 +135,7 @@ class _HomeViewState extends State<HomeView> {
   bool _hasMore = true;//是否还有更多数据
 
   // 获取推荐列表
-  void _getRecommendList() async {
+  Future<void> _getRecommendList() async {
     //当已经有请求正在加载 或者已经没有下一页了，就放弃请求
     if(_isLoading || !_hasMore){
       return;
@@ -142,34 +155,64 @@ class _HomeViewState extends State<HomeView> {
   }
 
 //特惠推荐列表
-void _getProductList() async{
+  Future<void> _getProductList() async{
   _specialRecommendResult = await getProductListApi();
-  setState(() {
-  });
+  // setState(() {
+  // });
 }
 
 
     //获取轮播图数据
-  void _getBannerList() async{
+  Future<void> _getBannerList() async{
     _bannerList = await getBannerListApi();
     // print(_bannerList);
-    setState(() {
-    });
   }
   //获取分类列表
-  void _getCategoryList() async {
+  Future<void> _getCategoryList() async {
     _categoryList = await getCategoryListApi();
-    setState(() {
-    });
   }
 
   final _controller = ScrollController();
 
+
+
+  Future<void> _onRefresh() async {
+    print("下拉刷新");
+    _page = 1;
+    _isLoading= false;
+    _hasMore = true;
+    await _getBannerList();
+    await _getCategoryList();
+    await _getProductList();
+    await _getInVogueList();
+    await _getOneStopList();
+    await _getRecommendList();
+
+    print("刷新完成");
+    ToastUtils.showToast(context, "刷新完成");
+    _paddingTop = 0;
+    setState(() {
+    });
+  }
+  //Globalkey是一个方法可以创建一个key绑定到wiget部件上 可以操作wiget部件
+
+  final GlobalKey<RefreshIndicatorState > _key = GlobalKey<RefreshIndicatorState>();
+
+  double _paddingTop = 0;
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _controller,//绑定控制器
-      slivers: _getScrollChildren());//sliver家族的内容
+    return RefreshIndicator(
+      key: _key,
+      onRefresh: _onRefresh,
+      child: AnimatedContainer(
+        padding: EdgeInsets.only(top: _paddingTop),
+        duration: Duration(milliseconds: 300),
+        child: CustomScrollView(
+          controller: _controller,
+          slivers: _getScrollChildren(),
+        ),
+      ),
+    );
   }
 }
 

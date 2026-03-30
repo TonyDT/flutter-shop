@@ -7,7 +7,7 @@ class BannerItem{
   String imgUrl;
   BannerItem({required this.id, required this.imgUrl});
   //扩展一个工厂函数一般用factory来声明 一般用来创建实例对象
-  factory BannerItem.fromJson(Map<String,dynamic> json) {
+  factory BannerItem.formJson(Map<String,dynamic> json) {
     return BannerItem(
       id: json["id"] ?? "",
       imgUrl: json["imgUrl"] ?? "",
@@ -90,14 +90,14 @@ class CategoryItem {
   });
 
   //工厂函数，从JSON创建实例
-  factory CategoryItem.fromJson(Map<String, dynamic> json) {
+  factory CategoryItem.formJson(Map<String, dynamic> json) {
     return CategoryItem(
       id: json["id"] ?? "",
       name: json["name"] ?? "",
       picture: json["picture"] ?? "",
       children: json["children"] != null
           ? (json["children"] as List)
-              .map((e) => CategoryItem.fromJson(e as Map<String, dynamic>))
+              .map((e) => CategoryItem.formJson(e as Map<String, dynamic>))
               .toList()
           : null,
       goods: json["goods"],
@@ -118,12 +118,12 @@ class SpecialRecommendation {
   });
 
   //工厂函数，从JSON创建实例
-  factory SpecialRecommendation.fromJson(Map<String, dynamic> json) {
+  factory SpecialRecommendation.formJson(Map<String, dynamic> json) {
     return SpecialRecommendation(
       id: json["id"] ?? "",
       title: json["title"] ?? "",
       subTypes: (json["subTypes"] as List<dynamic>?)
-              ?.map((e) => SubType.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => SubType.formJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
@@ -143,11 +143,11 @@ class SubType {
   });
 
   //工厂函数，从JSON创建实例
-  factory SubType.fromJson(Map<String, dynamic> json) {
+  factory SubType.formJson(Map<String, dynamic> json) {
     return SubType(
       id: json["id"] ?? "",
       title: json["title"] ?? "",
-      goodsItems: GoodsItems.fromJson(json["goodsItems"] as Map<String, dynamic>? ?? {}),
+      goodsItems: GoodsItems.formJson(json["goodsItems"] as Map<String, dynamic>? ?? {}),
     );
   }
 }
@@ -169,14 +169,14 @@ class GoodsItems {
   });
 
   //工厂函数，从JSON创建实例
-  factory GoodsItems.fromJson(Map<String, dynamic> json) {
+  factory GoodsItems.formJson(Map<String, dynamic> json) {
     return GoodsItems(
       counts: json["counts"] ?? 0,
       pageSize: json["pageSize"] ?? 0,
       pages: json["pages"] ?? 0,
       page: json["page"] ?? 0,
       items: (json["items"] as List<dynamic>?)
-              ?.map((e) => GoodsItem.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => GoodsItem.formJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
@@ -202,7 +202,7 @@ class GoodsItem {
   });
 
   //工厂函数，从JSON创建实例
-  factory GoodsItem.fromJson(Map<String, dynamic> json) {
+  factory GoodsItem.formJson(Map<String, dynamic> json) {
     return GoodsItem(
       id: json["id"] ?? "",
       name: json["name"] ?? "",
@@ -238,6 +238,36 @@ class GoodDetailItem extends GoodsItem {
       picture: json["picture"]?.toString() ?? "",
       orderNum: int.tryParse(json["orderNum"]?.toString() ?? "0") ?? 0,
       payCount: int.tryParse(json["payCount"]?.toString() ?? "0") ?? 0,
+    );
+  }
+}
+
+
+class GoodsDetailsItems {
+  int counts; //总商品数量
+  int pageSize; //每页显示数量
+  int pages; //总页数
+  int page; //当前页码
+  List<GoodDetailItem> items; //商品列表
+
+  GoodsDetailsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+
+  //工厂函数，从JSON创建实例
+  factory GoodsDetailsItems.formJson(Map<String, dynamic> json) {
+    return GoodsDetailsItems(
+      counts: json["counts"] ?? 0,
+      pageSize: json["pageSize"] ?? 0,
+      pages: json["pages"] ?? 0,
+      page: json["page"] ?? 0,
+      items: (json["items"] as List? ??[])
+          .map((e) =>GoodDetailItem.formJSON(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
