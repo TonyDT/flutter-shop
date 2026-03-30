@@ -26,26 +26,32 @@ class _HmHotState extends State<HmHot> {
   // 构建子项
   List<Widget> _getChildrenList() {
     return _items.map((item) {
-      return Container(
-        width: 80,
+      return Expanded( child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 4),//添加间距
+        // width: 80,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
+        child: AspectRatio(  // 使用 AspectRatio 保持比例，避免固定宽高
+          aspectRatio: 0.8,
               child: Image.network(
                 item.picture,
-                width: 80,
-                height: 100,
+                fit: BoxFit.cover,
+                // width: 80,
+                // height: 100,
                 errorBuilder: (context, error, stackTrace) {
                   return Image.asset(
                     "lib/assets/home_cmd_inner.png",
-                    width: 80,
-                    height: 100,
+                    fit: BoxFit.cover,
+                    // width: 80,
+                    // height: 100,
                   );
                 },
               ),
+            ),
             ),
             SizedBox(height: 5),
             Text(
@@ -54,9 +60,12 @@ class _HmHotState extends State<HmHot> {
                 fontSize: 12,
                 color: const Color.fromARGB(255, 86, 24, 20),
               ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ],
         ),
+      ),
       );
     }).toList();
   }

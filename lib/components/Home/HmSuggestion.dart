@@ -52,29 +52,54 @@ class _HmSuggestionState extends State<HmSuggestion> {
 
     List<Widget> _getChildrenList (){
       List<GoodsItem> list = _getDisplayItems();
-      return List.generate(list.length, (int index){
-              return Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+      return List.generate(list.length, (int index) {
+        // ✅ 用 Expanded 包裹每个子项，使其均分右侧剩余宽度
+        return Expanded(
+          child: Padding(
+            // ✅ 添加水平间距，避免子项紧贴
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  // ✅ 用 AspectRatio 替代固定宽高，使图片随父容器自适应
+                  child: AspectRatio(
+                    aspectRatio: 100 / 140, // 保持原宽高比
                     child: Image.network(
-                      errorBuilder: (context, error, stack) {
-                        // return Image.asset("lib/assets/home_cmd_inner.png");
-                        return Image.asset("lib/assets/home_cmd_inner.png");
-                      },
                       list[index].picture,
-                      width: 100,
-                      height: 140,
-                      fit: BoxFit.cover,),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stack) {
+                        return Image.asset(
+                          "lib/assets/home_cmd_inner.png",
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.red),
-                      child: Text("￥${list[index].price}",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.w700),)
-                 )
-                 ],
-              );
+                ),
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red,
+                  ),
+                  child: Text(
+                    "￥${list[index].price}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    // ✅ 防止价格文本换行或溢出
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       });
     }
   //完成渲染
