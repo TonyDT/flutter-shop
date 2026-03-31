@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/api/user.dart';
 import 'package:myapp/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -65,7 +67,27 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+_login() async{
+   try {
+   final res = await   loginAPI({
+       "account":_phoneController.text,
+       "password":_codeController.text,
+     });
+      ToastUtils.showToast(context, "登陆成功");
+      Navigator.pop(context);//返回上一页
+   }catch(e){
+     String? message;
+     if (e is DioException) {
+       message = e.message;
+     } else {
+       message = "未知错误: $e";
+     }
+     ToastUtils.showToast(context, message ?? " ");
+   }
+  //此时一定登陆成功
+  //http状态码 2xx业务状态码 业务执行成功
 
+}
   // 登录按钮Widget
   Widget _buildLoginButton() {
     return SizedBox(
@@ -78,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             //进行勾选判断
             if(_isChecked){
               //勾选判断
+              _login();
             }else{
               ToastUtils.showToast(context, "请勾选用户协议");
             }

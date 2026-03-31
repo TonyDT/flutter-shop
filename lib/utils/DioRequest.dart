@@ -1,4 +1,6 @@
 //基于dio二次封装
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:myapp/constants/index.dart';
 
@@ -32,13 +34,17 @@ class DioRequest {
                 handler.reject(DioException(requestOptions: response.requestOptions));
           },
           onError:(error,handler){
-            handler.reject(error);
-
+            // handler.reject(error);
+            handler.reject(DioException(requestOptions: error.requestOptions,message: error.response?.data["msg"] ?? " "));
           }
       ));
     }
     Future<dynamic> get(String url,{Map<String,dynamic>? params}){
       return _handleResponse(_dio.get(url,queryParameters: params));
+    }
+    //定义post
+    Future<dynamic> post(String url,{Map<String,dynamic>? params}){
+      return _handleResponse(_dio.post(url,data: params));
     }
 }
 //进一步处理返回结果的函数
@@ -51,7 +57,8 @@ Future<dynamic> _handleResponse(Future<Response<dynamic>> task) async{
    }
    throw Exception(data["msg"] ?? "加载数据异常");
  }catch(e){
-   throw Exception(e);
+   // throw Exception(e);
+   rethrow;
  }
 }
 //单例对象
