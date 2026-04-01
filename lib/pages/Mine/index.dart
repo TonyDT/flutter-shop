@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:myapp/api/mine.dart';
 import 'package:myapp/components/Home/HmMoreList.dart';
 import 'package:myapp/components/Mine/HmGuess.dart';
+import 'package:myapp/stores/UserController.dart';
 import 'package:myapp/viewmodels/home.dart';
 
 class MineView extends StatefulWidget {
@@ -12,6 +14,8 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+  //
+  final UserController _userController = Get.put(UserController());
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
@@ -24,25 +28,39 @@ class _MineViewState extends State<MineView> {
       padding: const EdgeInsets.only(left: 20, right: 40, top: 80, bottom: 20),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 26,
-            backgroundImage: const AssetImage('lib/assets/goods_avatar.png'),
-            backgroundColor: Colors.white,
-          ),
+          Obx((){
+            return CircleAvatar(
+              radius: 26,
+              backgroundImage: _userController.user.value.id.isEmpty ?
+              const AssetImage('lib/assets/goods_avatar.png'):
+              NetworkImage(_userController.user.value.avatar),
+              backgroundColor: Colors.white,
+            );
+          }),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:  [
-                GestureDetector(
-                  onTap:(){
-                    Navigator.pushNamed(context, "/login");
-                  },
-                  child: Text(
-                  '立即登录',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                ),
+                Obx((){
+                  //使用obx的有可检测的响应式数据
+                  return GestureDetector(
+                    onTap:(){
+                      if(_userController.user.value.id.isEmpty){
+                        Navigator.pushNamed(context, "/login");
+                        return;
+                      }
+                    },
+                    child: Text(
+                      _userController.user.value.id.isEmpty ?
+                       '立即登录': _userController.user.value.account ??'用户',
+                      //有登录信息显示用户信息，否则显示立即登录
+
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                  );
+                })
+
               ],
             ),
           ),
