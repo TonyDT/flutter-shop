@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/api/user.dart';
 import 'package:myapp/utils/ToastUtils.dart';
-
+import 'package:myapp/stores/TokenManager.dart';
 import '../../stores/UserController.dart';
 
 class LoginPage extends StatefulWidget {
@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
      });
    
     _userController.updateUserInfo(res);
+    tokenManager.setToken(res.token);
       ToastUtils.showToast(context, "登陆成功");
       Navigator.pop(context);//返回上一页
 

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:myapp/constants/index.dart';
 
+import '../stores/TokenManager.dart';
 import '../viewmodels/home.dart';
 
 class DioRequest {
@@ -22,7 +23,13 @@ class DioRequest {
     void _addInterceptor() {
       _dio.interceptors.add(InterceptorsWrapper(
           onRequest:(request,handler){
-                handler.next(request);
+            //添加token
+            if(tokenManager.getToken().isNotEmpty){
+              request.headers = {
+                "Authorization":"Bearer ${tokenManager.getToken()}"
+              };
+            }
+            handler.next(request);
           },
           onResponse:(response,handler){
             //http状态码 200 300

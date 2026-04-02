@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myapp/api/user.dart';
 import 'package:myapp/pages/Cart/index.dart';
 import 'package:myapp/pages/Category/index.dart';
 import 'package:myapp/pages/Home/index.dart';
 import 'package:myapp/pages/Mine/index.dart';
+import 'package:myapp/stores/TokenManager.dart';
+import 'package:myapp/stores/UserController.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -51,6 +55,24 @@ class _MainPageState extends State<MainPage> {
   List<Widget>_getChildren () {
     return [HomeView(),CategoryView(),CartView(),MineView()];
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //初始化用户
+    _initUser();
+  }
+  final UserController _userController = Get.put(UserController());
+  Future<void> _initUser() async{
+    await tokenManager.init();
+    if(tokenManager.getToken().isNotEmpty){
+      //如果token有值就获取用户信息
+      _userController.updateUserInfo(await getUserInfoApi());
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold
