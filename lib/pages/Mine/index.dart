@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:myapp/api/mine.dart';
 import 'package:myapp/components/Home/HmMoreList.dart';
 import 'package:myapp/components/Mine/HmGuess.dart';
+import 'package:myapp/stores/TokenManager.dart';
 import 'package:myapp/stores/UserController.dart';
 import 'package:myapp/viewmodels/home.dart';
+import 'package:myapp/viewmodels/user.dart';
 
 class MineView extends StatefulWidget {
   MineView({Key? key}) : super(key: key);
@@ -16,6 +18,36 @@ class MineView extends StatefulWidget {
 class _MineViewState extends State<MineView> {
   //
   final UserController _userController = Get.find();
+  Widget _getLogOut(){
+    return _userController.user.value.id.isNotEmpty ? Expanded(child: GestureDetector(
+      onTap: (){
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("提示"),
+                content: Text("确认退出登录吗"),
+                actions: [
+                  TextButton(onPressed: (){
+                     Navigator.pop(context);
+                  }, child: Text("取消")),
+                  TextButton(onPressed: () async{
+                    //清出GetX删除token
+                    await tokenManager.removeToken();
+                    //Getx内存数据
+                    _userController.updateUserInfo(UserInfo.fromJSON({}));
+                    Navigator.pop(context);
+                  }, child: Text("确定")),
+                ],
+              );
+
+        },
+        );
+      },
+      child: Text("退 出",textAlign: TextAlign.end),
+    )
+    ):Text("");
+  }
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
@@ -64,6 +96,7 @@ class _MineViewState extends State<MineView> {
               ],
             ),
           ),
+          Obx(()=>_getLogOut(),)
         ],
       ),
     );

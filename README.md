@@ -7,9 +7,10 @@
 - View：UI层（pages）
 - ViewModel：业务逻辑层（viewmodels）
 ## 🔧 技术选型
-- 状态管理：Riverpod / GetX（按你实际写）
+- 状态管理：GetX（按你实际写）
 - 网络请求：Dio
 - 路由管理：GoRouter / Navigator 2.0
+- 数据持久化： shared_preferences
 ## 🚀 设计理念
   📦 模块化：按职责拆分目录
   🔄 解耦：UI 与业务逻辑分离
