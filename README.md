@@ -75,4 +75,8 @@ lib/
    ```bash
    flutter pub add carousel_slider
    flutter pub add dio
+   flutter pub add cupertino_icons
+   flutter pub add get
+   flutter pub add shared_preferences
+ 
 
