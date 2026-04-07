@@ -77,12 +77,11 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold
       (
-      body: SafeArea(child:
+      body:
         IndexedStack(
           index: _currentIndex,
           children: _getChildren(),//放置几个组件
-        )
-      ),
+        ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index){
           _currentIndex = index;

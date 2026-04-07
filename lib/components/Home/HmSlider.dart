@@ -37,6 +37,9 @@ class _HmSliderState extends State<HmSlider> {
   //搜索栏
   Widget _getSearch(){
     return Positioned(
+      left: 0,
+      right: 0,
+      top: MediaQuery.of(context).padding.top,
       child: Padding(padding: EdgeInsets.all(10),
         child: Container(
           alignment: Alignment.centerLeft,
