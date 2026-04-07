@@ -41,7 +41,7 @@ class _HmHotState extends State<HmHot> {
                 item.picture,
                 fit: BoxFit.cover,
                 // width: 80,
-                // height: 100,
+                height: 100,
                 errorBuilder: (context, error, stackTrace) {
                   return Image.asset(
                     "lib/assets/home_cmd_inner.png",
@@ -57,7 +57,7 @@ class _HmHotState extends State<HmHot> {
             Text(
               "¥${item.price}",
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 9,
                 color: const Color.fromARGB(255, 86, 24, 20),
               ),
               overflow: TextOverflow.ellipsis,
@@ -71,7 +71,10 @@ class _HmHotState extends State<HmHot> {
   }
 
   Widget _buildHeader() {
-    return Row(
+    return Wrap(
+      runSpacing: 4, // 换行后的垂直间距
+      alignment: WrapAlignment.start,
+      spacing: 10,   // 水平间距,
       children: [
         Text(
           widget.type == "step" ? "一站买全" : "爆款推荐",

@@ -79,7 +79,7 @@ class _HmSuggestionState extends State<HmSuggestion> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  // padding: EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.red,
@@ -88,7 +88,7 @@ class _HmSuggestionState extends State<HmSuggestion> {
                     "￥${list[index].price}",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 10,
                       fontWeight: FontWeight.w700,
                     ),
                     // ✅ 防止价格文本换行或溢出
