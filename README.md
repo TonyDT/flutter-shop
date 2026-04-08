@@ -80,3 +80,11 @@ lib/
    flutter pub add shared_preferences
  
 
+#flutter环境配置
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+#鸿蒙的
+export PATH="/Users/taodong/Desktop/flutter/ohpm/flutter_flutter/bin:$PATH"
+#官方正常的
+#export PATH="$PATH:$HOME/development/flutter/bin"
+
